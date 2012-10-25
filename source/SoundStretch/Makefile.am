@@ -41,14 +41,14 @@ soundstretch_SOURCES=main.cpp RunParameters.cpp WavFile.cpp
 ## created by the above soundstretch_SOURCES are automatically linked in, so here I
 ## list object files from other directories as well as flags passed to the
 ## linker. 
-soundstretch_LDADD=../SoundTouch/libSoundTouch.la -lm
+soundstretch_LDADD=../SoundTouch/libSoundTouch.la -lm $(GNUSTL_LIBS)
 
 ## linker flags. 
 # OP 2011-7-17 Linker flags disabled to prevent stripping symbols by default
 # soundstretch_LDFLAGS=-s
 
 ## additional compiler flags
-soundstretch_CXXFLAGS=-O3
+soundstretch_CXXFLAGS=-O3 $(GNUSTL_CFLAGS)
 
 #clean-local: 
 #	-rm -f additional-files-to-remove-on-make-clean
