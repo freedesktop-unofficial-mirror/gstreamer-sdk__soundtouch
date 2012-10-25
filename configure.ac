@@ -216,9 +216,11 @@ AC_ARG_WITH(
   [with_gnustl=no])
 if test "x$with_gnustl" != "xno"; then
   PKG_CHECK_MODULES(GNUSTL, gnustl)
+  STL="gnustl"
 fi
 AC_SUBST(GNUSTL_LIBS)
 AC_SUBST(GNUSTL_CFLAGS)
+AC_SUBST(STL)
 
 dnl ############################################################################
 dnl # Internationaliation and Localiation                                    #
