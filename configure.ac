@@ -206,19 +206,19 @@ dnl add whatever functions you might want to check for here
 
 
 AC_ARG_WITH(
-  stlport,
+  gnustl,
   AC_HELP_STRING(
-    [--with-stlport],
-    [use stlport @<:@default=no@:>@]),
+    [--with-gnustl],
+    [use gnustl @<:@default=no@:>@]),
   [AS_CASE(
     [$withval], [no], [], [yes], [],
-    [AC_MSG_ERROR([bad value "$withval" for --with-stlport])])],
-  [with_stlport=no])
-if test "x$with_stlport" != "xno"; then
-  PKG_CHECK_MODULES(STLPORT, stlport)
+    [AC_MSG_ERROR([bad value "$withval" for --with-gnustl])])],
+  [with_gnustl=no])
+if test "x$with_gnustl" != "xno"; then
+  PKG_CHECK_MODULES(GNUSTL, gnustl)
 fi
-AC_SUBST(STLPORT_LIBS)
-AC_SUBST(STLPORT_CFLAGS)
+AC_SUBST(GNUSTL_LIBS)
+AC_SUBST(GNUSTL_CFLAGS)
 
 dnl ############################################################################
 dnl # Internationaliation and Localiation                                    #
