@@ -32,10 +32,10 @@ libSoundTouch_la_SOURCES=AAFilter.cpp FIRFilter.cpp FIFOSampleBuffer.cpp RateTra
 
 
 # Compiler flags
-AM_CXXFLAGS=-O3 -fcheck-new -I../../include
+AM_CXXFLAGS=-O3 -fcheck-new -I../../include $(STLPORT_CFLAGS)
 
 # Compile the files that need MMX and SSE individually.
-libSoundTouch_la_LIBADD=libSoundTouchMMX.la libSoundTouchSSE.la
+libSoundTouch_la_LIBADD=libSoundTouchMMX.la libSoundTouchSSE.la $(STLPORT_LIBS)
 noinst_LTLIBRARIES=libSoundTouchMMX.la libSoundTouchSSE.la
 libSoundTouchMMX_la_SOURCES=mmx_optimized.cpp
 libSoundTouchSSE_la_SOURCES=sse_optimized.cpp
@@ -44,23 +44,23 @@ libSoundTouchSSE_la_SOURCES=sse_optimized.cpp
 # If MMX is supported compile with -mmmx.
 # Do not assume -msse is also supported.
 if HAVE_MMX
-libSoundTouchMMX_la_CXXFLAGS = -mmmx $(AM_CXXFLAGS)
+libSoundTouchMMX_la_CXXFLAGS = -mmmx $(AM_CXXFLAGS) $(STLPORT_CFLAGS)
 else
-libSoundTouchMMX_la_CXXFLAGS = $(AM_CXXFLAGS)
+libSoundTouchMMX_la_CXXFLAGS = $(AM_CXXFLAGS) $(STLPORT_CFLAGS)
 endif
 
 # We enable optimizations by default.
 # If SSE is supported compile with -msse.
 if HAVE_SSE
-libSoundTouchSSE_la_CXXFLAGS = -msse $(AM_CXXFLAGS)
+libSoundTouchSSE_la_CXXFLAGS = -msse $(AM_CXXFLAGS) $(STLPORT_CFLAGS)
 else
-libSoundTouchSSE_la_CXXFLAGS = $(AM_CXXFLAGS)
+libSoundTouchSSE_la_CXXFLAGS = $(AM_CXXFLAGS) $(STLPORT_CFLAGS)
 endif
 
 # Let the user disable optimizations if he wishes to.
 if !X86_OPTIMIZATIONS
-libSoundTouchMMX_la_CXXFLAGS = $(AM_CXXFLAGS)
-libSoundTouchSSE_la_CXXFLAGS = $(AM_CXXFLAGS)
+libSoundTouchMMX_la_CXXFLAGS = $(AM_CXXFLAGS) $(STLPORT_CFLAGS)
+libSoundTouchSSE_la_CXXFLAGS = $(AM_CXXFLAGS) $(STLPORT_CFLAGS)
 endif
 
 

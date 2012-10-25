@@ -205,10 +205,20 @@ dnl add whatever functions you might want to check for here
 #AC_CHECK_FUNCS([floor ftruncate memmove memset mkdir modf pow realpath sqrt strchr strdup strerror strrchr strstr strtol])
 
 
-
-
-
-
+AC_ARG_WITH(
+  stlport,
+  AC_HELP_STRING(
+    [--with-stlport],
+    [use stlport @<:@default=no@:>@]),
+  [AS_CASE(
+    [$withval], [no], [], [yes], [],
+    [AC_MSG_ERROR([bad value "$withval" for --with-stlport])])],
+  [with_stlport=no])
+if test "x$with_stlport" != "xno"; then
+  PKG_CHECK_MODULES(STLPORT, stlport)
+fi
+AC_SUBST(STLPORT_LIBS)
+AC_SUBST(STLPORT_CFLAGS)
 
 dnl ############################################################################
 dnl # Internationaliation and Localiation                                    #
