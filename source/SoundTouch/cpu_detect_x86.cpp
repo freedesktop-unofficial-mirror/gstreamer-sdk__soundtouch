@@ -47,9 +47,7 @@
     #if defined(__GNUC__) && defined(__i386__)
         // gcc
         #include "cpuid.h"
-    #endif
-
-    #if defined(_M_IX86)
+    #elif defined(_M_IX86)
         // windows
         #include <intrin.h>
         #define bit_MMX		(1 << 23)
