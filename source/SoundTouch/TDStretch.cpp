@@ -46,6 +46,7 @@
 #include <assert.h>
 #include <math.h>
 #include <float.h>
+#include <stdint.h>
 
 #include "STTypes.h"
 #include "cpu_detect.h"
@@ -590,7 +591,11 @@ void TDStretch::acceptNewOverlapLength(int newOverlapLength)
 
         pMidBufferUnaligned = new SAMPLETYPE[overlapLength * 2 + 16 / sizeof(SAMPLETYPE)];
         // ensure that 'pMidBuffer' is aligned to 16 byte boundary for efficiency
+#if SIZEOF_VOIDP == 8
+        pMidBuffer = (SAMPLETYPE *)((((uint64_t)pMidBufferUnaligned) + 15) & (uint64_t)-16);
+#else
         pMidBuffer = (SAMPLETYPE *)((((ulong)pMidBufferUnaligned) + 15) & (ulong)-16);
+#endif
 
         clearMidBuffer();
     }

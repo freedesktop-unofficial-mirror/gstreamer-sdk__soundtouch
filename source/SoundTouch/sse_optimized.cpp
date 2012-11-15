@@ -69,6 +69,7 @@ using namespace soundtouch;
 #include "TDStretch.h"
 #include <xmmintrin.h>
 #include <math.h>
+#include <stdint.h>
 
 // Calculates cross correlation of two buffers
 double TDStretchSSE::calcCrossCorr(const float *pV1, const float *pV2) const
@@ -93,7 +94,11 @@ double TDStretchSSE::calcCrossCorr(const float *pV1, const float *pV2) const
 
     #define _MM_LOAD    _mm_load_ps
 
+#if SIZEOF_VOIDP == 8
+    if (((uint64_t)pV1) & 15) return -1e50;    // skip unaligned locations
+#else
     if (((ulong)pV1) & 15) return -1e50;    // skip unaligned locations
+#endif
 
 #else
     // No cheating allowed, use unaligned load & take the resulting
@@ -218,7 +223,11 @@ void FIRFilterSSE::setCoefficients(const float *coeffs, uint newLength, uint uRe
     // Ensure that filter coeffs array is aligned to 16-byte boundary
     delete[] filterCoeffsUnalign;
     filterCoeffsUnalign = new float[2 * newLength + 4];
+#if SIZEOF_VOIDP == 8
+    filterCoeffsAlign = (float *)(((uint64_t)filterCoeffsUnalign + 15) & (uint64_t)-16);
+#else
     filterCoeffsAlign = (float *)(((unsigned long)filterCoeffsUnalign + 15) & (ulong)-16);
+#endif
 
     fDivider = (float)resultDivider;
 
@@ -246,7 +255,11 @@ uint FIRFilterSSE::evaluateFilterStereo(float *dest, const float *source, uint n
     assert(dest != NULL);
     assert((length % 8) == 0);
     assert(filterCoeffsAlign != NULL);
+#if SIZEOF_VOIDP == 8
+    assert(((uint64_t)filterCoeffsAlign) % 16 == 0);
+#else
     assert(((ulong)filterCoeffsAlign) % 16 == 0);
+#endif
 
     // filter is evaluated for two stereo samples with each iteration, thus use of 'j += 2'
     for (j = 0; j < count; j += 2)

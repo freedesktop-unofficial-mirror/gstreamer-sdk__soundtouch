@@ -73,6 +73,7 @@ AC_C_INLINE
 #AC_TYPE_OFF_T
 #AC_TYPE_SIZE_T
 
+AC_CHECK_SIZEOF(void*)
 
 AC_ARG_ENABLE(integer-samples,
               [AC_HELP_STRING([--enable-integer-samples],

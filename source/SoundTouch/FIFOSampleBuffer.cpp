@@ -47,6 +47,7 @@
 #include <memory.h>
 #include <string.h>
 #include <assert.h>
+#include <stdint.h>
 
 #include "FIFOSampleBuffer.h"
 
@@ -177,7 +178,11 @@ void FIFOSampleBuffer::ensureCapacity(uint capacityRequirement)
             ST_THROW_RT_ERROR("Couldn't allocate memory!\n");
         }
         // Align the buffer to begin at 16byte cache line boundary for optimal performance
+#if SIZEOF_VOIDP == 8
+        temp = (SAMPLETYPE *)(((uint64_t)tempUnaligned + 15) & (uint64_t)-16);
+#else
         temp = (SAMPLETYPE *)(((ulong)tempUnaligned + 15) & (ulong)-16);
+#endif
         if (samplesInBuffer)
         {
             memcpy(temp, ptrBegin(), samplesInBuffer * channels * sizeof(SAMPLETYPE));
