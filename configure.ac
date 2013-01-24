@@ -196,7 +196,7 @@ AM_CONDITIONAL([HAVE_SSE], [test "x$have_sse_intrinsics" = "xyes"])
 dnl ############################################################################
 dnl # Checks for library functions/classes                                     #
 dnl ############################################################################
-AC_FUNC_MALLOC
+# AC_FUNC_MALLOC
 AC_TYPE_SIGNAL
 
 dnl make -lm get added to the LIBS
