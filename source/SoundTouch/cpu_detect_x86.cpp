@@ -44,7 +44,7 @@
 
 #if defined(SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS)
 
-    #if defined(__GNUC__) && defined(__i386__)
+    #if defined(__GNUC__) && defined(__i386__) && !defined(__clang__)
         // gcc
         #include "cpuid.h"
     #elif defined(_M_IX86)
@@ -88,7 +88,7 @@ uint detectCPUextensions(void)
 
 /// If building for a 32bit system and the user wants optimizations.
 /// Keep the _dwDisabledISA test (2 more operations, could be eliminated).
-#elif ((defined(__GNUC__) && defined(__i386__)) \
+#elif ((defined(__GNUC__) && defined(__i386__) && !defined(__clang__)) \
     || defined(_M_IX86))  \
     && defined(SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS)
 
