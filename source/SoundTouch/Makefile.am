@@ -32,7 +32,7 @@ libSoundTouch_la_SOURCES=AAFilter.cpp FIRFilter.cpp FIFOSampleBuffer.cpp RateTra
 
 
 # Compiler flags
-AM_CXXFLAGS=-O3 -fcheck-new -I../../include $(GNUSTL_CFLAGS)
+AM_CXXFLAGS=-O3 -I../../include $(GNUSTL_CFLAGS)
 
 # Compile the files that need MMX and SSE individually.
 libSoundTouch_la_LIBADD=libSoundTouchMMX.la libSoundTouchSSE.la $(GNUSTL_LIBS)
